@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include "map.h"
+#include "draw.h"
+#include "tree.h"
+#include "moves.h"
+#include "path.h"
 
 int main() {
     t_map map;
@@ -32,5 +36,43 @@ int main() {
         printf("\n");
     }
     displayMap(map);
+    printf("\n");
+
+
+    t_move *possibilities = generateMoves(9);
+    printf("Possible Moves: \n");
+    for (int i = 0; i < 9; i++) {
+        printf("%s ", getMoveAsString(possibilities[i]));
+        if (i < 8) {
+            printf("; ");
+        }
+    }
+    printf("\n\n");
+
+    t_localisation loc = loc_init(0, 0, NORTH);
+    printf("MARC's Initial Position :\nx: %d, y: %d, direction: NORTH\n\n", loc.pos.x, loc.pos.y);
+
+    t_tree tree;
+    tree = createTree(9, 0, INITIAL_POS, possibilities, loc, map);
+
+    int minValue = searchMin(tree);
+    printf("Minimum value: %d\n", minValue);
+
+
+    p_node MinimumLeaf = leafMin(tree);
+
+    int nbMoves;
+    t_move* moves = getBestPath(tree, &nbMoves);
+
+    printf("Best moves :\n");
+    for (int i = 0; i < nbMoves; i++) {
+        printf("%s ", getMoveAsString(moves[i]));
+        if (i < nbMoves - 1) {
+            printf("; ");
+        }
+    }
+
+    printTree(tree.root);
+
     return 0;
 }

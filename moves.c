@@ -153,3 +153,22 @@ void updateLocalisation(t_localisation *p_loc, t_move m)
     *p_loc = move(*p_loc, m);
     return;
 }
+
+t_move *generateMoves(int quantity) {
+    srand(time(NULL));
+    int nbMoves[] = {PROB_TEN, PROB_TWENTY, PROB_THIRTY, PROB_REVERSE, PROB_NINETY_LEFT, PROB_NINETY_RIGHT, PROB_U_TURN};
+    t_move *moves = (t_move *) malloc(quantity * sizeof(t_move));
+    for (int i = 0; i < quantity; i++) {
+        int random = (rand() % (TOTAL_PROB - i)) + 1;
+        for (int j = 0; j < 7; j++) {
+            if (random > 0 && random <= nbMoves[j]) {
+                moves[i] = j;
+                nbMoves[j]--;
+                break;
+            } else {
+                random -= nbMoves[j];
+            }
+        }
+    }
+    return moves;
+}

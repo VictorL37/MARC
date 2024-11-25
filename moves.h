@@ -5,7 +5,21 @@
 #ifndef UNTITLED1_MOVES_H
 #define UNTITLED1_MOVES_H
 
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+#define PROB_TEN 22
+#define PROB_TWENTY 15
+#define PROB_THIRTY 7
+#define PROB_REVERSE 7
+#define PROB_NINETY_LEFT 21
+#define PROB_NINETY_RIGHT 21
+#define PROB_U_TURN 7
+#define TOTAL_PROB 100
+
 #include "loc.h"
+
 
 /**
  * @brief Array of strings for the possible moves of the robot
@@ -24,7 +38,8 @@ typedef enum e_move
     B_10, // Backward 10 m
     T_LEFT, // Turn left (+90°)
     T_RIGHT, // Turn right (-90°)
-    U_TURN
+    U_TURN,
+    INITIAL_POS
 } t_move;
 
 /**
@@ -49,5 +64,7 @@ t_localisation move(t_localisation, t_move);
  * @return none
  */
 void updateLocalisation(t_localisation *, t_move);
+
+t_move *generateMoves(int);
 
 #endif //UNTITLED1_MOVES_H
